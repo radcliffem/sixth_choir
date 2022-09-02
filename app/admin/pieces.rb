@@ -3,14 +3,11 @@ ActiveAdmin.register Piece do
 	actions :index, :show, :new, :destroy, :edit
 
 	menu parent: 'Tables'
-
+  
+  filter :title
   filter :composers, collection: proc { Composer.all.order(:last_name).collect{|c| ["#{c.name}", c.id]} }, multiple: true
   filter :performances, collection: proc { Performance.all.order(date: :desc).collect{|p| ["#{p.date}: #{p.purpose}", p.id]} }, multiple: true
-  filter :title
   filter :year
-
-  @@valid_voices = %w(2\ equal\ voices 2\ part SATB SSAA)
-
 
 	index do
 		column :title do |p|
@@ -24,7 +21,7 @@ ActiveAdmin.register Piece do
       p.voices
     end
     column :most_recent_performance do |p|
-      p.performances.pluck(:date).max
+      p.most_recent_performance
     end
 
 	end
@@ -68,16 +65,9 @@ ActiveAdmin.register Piece do
 			end
 			column do
 				panel ("Performances of #{p.title}") do
-					table_for p.performances.order(date: :desc) do 
-						column :date do |perf|
-							link_to(perf.date, admin_performance_path(perf.id))
-						end
-            column :season do |perf|
-              perf.liturgical_season
-            end
-						column :purpose
-            column :voice
-					end
+          performances = p.performances.order(date: :desc)
+          render 'admin/abre_components/performance_table', performances: performances, 
+            composer: false, count: 10, title: false, season: true
 				end
 			end
 		end
@@ -106,6 +96,7 @@ ActiveAdmin.register Piece do
         p.input :season, as: :select, collection: Season.all.map{|x| [x.liturgical_season, x.id]}
         p.input :purpose
         p.input :voice
+        p.input :acapella
       end
     end
   

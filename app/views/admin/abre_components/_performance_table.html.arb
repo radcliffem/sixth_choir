@@ -1,19 +1,27 @@
 paginated_collection(performances.page(params[:page]).per(count), download_links: false) do
   table_for collection do
   
-    column :title do |performance|
-      link_to performance.title, admin_piece_path(performance.piece.id)
+    if title
+      column :title do |performance|
+        link_to performance.title, admin_piece_path(performance.piece.id)
+      end
     end
 
-    column :composers do |performance|
-      performance.composers.to_a.map{|c|
-        [link_to(c.name, admin_composer_path(c.id)), ' | ']}.flatten[0...-1]
+    if composer 
+      column :composers do |performance|
+        performance.composers.to_a.map{|c|
+          [link_to(c.name, admin_composer_path(c.id)), ' | ']}.flatten[0...-1]
+      end
     end
 
     column :date do |performance|
       link_to performance.date, admin_performance_path(performance.id)
     end
-    column :liturgical_season
+    if season
+      column :liturgical_season
+    end
+    column :voice
+    column :acapella
     column :purpose
   end
     

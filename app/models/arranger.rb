@@ -28,4 +28,8 @@ class Arranger < ActiveRecord::Base
 		end
 		return Arranger.create!(first_name: first_name, middle_name: middle_name, last_name: last_name, display_name: display_name)
 	end
+
+	def most_recent_performance
+		a.performances.any? ? a.performances.map(&:date).max : nil
+	end
 end

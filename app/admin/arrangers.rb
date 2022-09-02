@@ -8,11 +8,11 @@ ActiveAdmin.register Arranger do
   filter :last_name
 
 	index do
-		column :name do |c|
-			link_to c.name, admin_arranger_path(c.id)
+		column :name do |a|
+			link_to a.name, admin_arranger_path(a.id)
 		end
-    column :most_recent_performance do |c|
-      c.performances.pluck(:date).max
+    column :most_recent_performance do |a|
+      a.most_recent_performance
     end
 	end
 
@@ -34,7 +34,7 @@ ActiveAdmin.register Arranger do
                 link_to("#{c.name}", admin_composer_path(c.id)),' | '] }.flatten[0...-1]
             end
 						column :most_recent do |p|
-              p.performances.pluck(:date).max
+              p.most_recent_performance
             end
 					end
 				end

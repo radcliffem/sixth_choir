@@ -38,9 +38,7 @@ ActiveAdmin.register Performance do
               ' | '] }.flatten[0...-1]
           end
           row :date
-          row :sung_acapella do 
-            p.acapella
-          end
+          row :acapella
           row :voice do 
             p.voice
           end
@@ -56,26 +54,18 @@ ActiveAdmin.register Performance do
 				end
 			end
       column do
-        panel ("Other music on this date") do
-          table_for Performance.where(date: p.date) do
-            column :piece do |perf|
-              link_to(perf.piece.title, admin_piece_path(perf.piece.id))
-            end
-            column :purpose
-          end 
+        panel ("Music on this date") do
+          performances = Performance.where(date: p.date)
+          render 'admin/abre_components/performance_table', performances: performances, 
+            composer: true, count: 10, title: true, season: false
         end
       
 				panel ("All Performances of #{p.piece.title}") do
-					table_for p.piece.performances.order(date: :desc) do 
-						column :date do |perf|
-							link_to(perf.date, admin_performance_path(perf.id))
-						end
-            column :season do |perf|
-              perf.liturgical_season
-            end
-						column :purpose
-					end
+          performances = p.piece.performances.order(date: :desc)
+          render 'admin/abre_components/performance_table', performances: performances, 
+            composer: false, count: 10, title: false, season: true
 				end
+        
 			end
 		end
 	end
@@ -88,10 +78,10 @@ ActiveAdmin.register Performance do
       f.input :piece, as: :select, collection: Piece.all.order(:title)
       f.input :date
       f.input :season, as: :select, collection: Season.all.map{|s| [s.liturgical_season, s.id]}
-      f.input :service_type
       f.input :purpose
-      f.input :appearances, as: :select, collection: Appearance.all.map{|a| [a.display_appearance_date, a.id]}
       f.input :voice, as: :select, collection: Piece.valid_voices
+      f.input :acapella
+      f.input :appearances, as: :select, collection: Appearance.all.map{|a| [a.display_appearance_date, a.id]}
     end
 
     f.inputs 'Appearances' do

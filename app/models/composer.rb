@@ -28,5 +28,8 @@ class Composer < ActiveRecord::Base
 		return Composer.create!(first_name: first_name, middle_name: middle_name, last_name: last_name, display_name: display_name, nationality: nationality)
 	end
 
+	def most_recent_performance
+		performances.any? ? performances.map(&:date).max : nil
+	end
 
 end

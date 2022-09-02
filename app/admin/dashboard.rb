@@ -8,7 +8,8 @@ ActiveAdmin.register_page "Dashboard" do
 
         div class: 'recent_performances' do
             panel ("Recent Performances") do
-              render 'admin/abre_components/performance_table', performances: @recent_performances, count: 8
+              render 'admin/abre_components/performance_table', performances: @recent_performances, 
+                composer: true, count: 10, title: true, season: true
             end
           end
         end

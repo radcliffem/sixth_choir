@@ -22,6 +22,8 @@ class Formtastic::Inputs::SelectInput
   end
 end
 
+
+
 ActiveAdmin.setup do |config|
   # == Site Title
   #
@@ -162,7 +164,7 @@ ActiveAdmin.setup do |config|
   #
   # Enable and disable Batch Actions
   #
-  config.batch_actions = true
+  config.batch_actions = false
 
   # == Controller Filters
   #

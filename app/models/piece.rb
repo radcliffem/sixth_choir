@@ -14,6 +14,10 @@ class Piece < ActiveRecord::Base
 		performances.map(&:seasons).uniq.map(&:liturgical_season)
 	end
 
+	def most_recent_performance
+		performances.any? ? performances.map(&:date).max : nil
+	end
+
 	def display_composers
 		composers.sort_by(&:id).map(&:name).join(' | ')
 	end

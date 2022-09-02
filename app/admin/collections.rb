@@ -30,7 +30,7 @@ ActiveAdmin.register Collection do
 							link_to p.title, admin_piece_path(p.id)
 						end
 						column :most_recent do |p|
-              p.performances.pluck(:date).max
+              p.most_recent_performance
             end
             column :page_number do |p|
               p.page_number

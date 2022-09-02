@@ -15,7 +15,7 @@ ActiveAdmin.register Composer do
 		end
 		column :nationality
     column :most_recent_performance do |c|
-      c.performances.pluck(:date).max
+      c.most_recent_performance
     end
 	end
 
@@ -39,7 +39,7 @@ ActiveAdmin.register Composer do
               p.special_parts.join(' | ')
             end
 						column :most_recent do |p|
-              p.performances.pluck(:date).max
+              p.most_recent_performance
             end
 					end
 				end
