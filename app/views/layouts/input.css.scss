@@ -1,0 +1,47 @@
+// .input.left-column { width: 56%; }
+// .input.right-column { width: 34%; }
+// .input.left-column, .input.right-column { margin: 0 2.5%; float: left; }
+
+// form input.ng-pristine, form select.ng-pristine { border:1px solid Gold; }
+// form input.ng-dirty.ng-invalid, form select.ng-dirty.ng-invalid  { border: 1px solid Red; }
+// form input.ng-dirty.ng-valid, form select.ng-dirty.ng-valid { border: 1px solid Green; }
+
+// // Fix FF
+// input:required { box-shadow:none; }
+// input:invalid { box-shadow: none; }
+
+// form fieldset.inputs ol.inline {
+// 	@include clearfix;
+// 	margin-left: -10px;
+
+// 	& > li {
+// 		float: left;
+// 	}
+// 	label {
+// 		padding-top: 0px;
+// 		margin-right: 10px;
+// 	}
+// 	label, input {
+// 		display: inline-block;
+// 		vertical-align: baseline;
+// 		width: auto;
+// 	}
+// }
+
+// .fa.fa-times.delete-answer {
+// 	position: absolute;
+// 	right: 10px;
+// 	top: 0px;
+// 	cursor: pointer;
+// }
+
+// .field-wrapper {
+// 	@include clearfix;
+// }
+
+// .field-error {
+// 	color: red;
+// 	font-size: 20px;
+// 	display: block;
+// 	margin-left: 20%;
+// }

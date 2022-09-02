@@ -1,0 +1,86 @@
+//$fa-font-path: "/assets/font-awesome/fonts" !default;
+
+@import "active_admin/mixins";
+@import "active_admin/base";
+//@import "input";
+@import "chosen";
+
+
+.doublelineheight {
+  line-height: 2;
+}
+
+table.index_table {
+  line-height: 16px;
+  border-collapse: collapse;
+
+  tbody {
+    td {
+      // border: 1px solid #AAA;
+      padding: 1px 1px 1px 1px;
+      border-bottom: 0px solid #e8e8e8;
+      vertical-align: top;
+    }
+//     // tr td  { //override zebra striping on tables
+//     //   background: #FFFFFF !important;
+//     // }
+  }
+}
+
+.panel .paginated_collection {
+  padding-bottom: 10px;
+}
+
+.panel .filter_form {
+  padding-bottom: 15px;
+}
+
+div.panel_contents {
+  padding-bottom: 1px;
+}
+
+table {
+  line-height: 16px;
+  th {
+    text-transform: uppercase;
+  }
+}
+
+table.text_table {
+  margin-bottom: 0;
+  tr td h4{
+    line-height: 5px;
+  }
+}
+
+table.form_table {
+  width: 80%;
+  padding-left: 10px;
+  label {
+    display:block;
+    font-size: 1.0em;
+    font-weight: bold;
+    color: #5e6469;
+    text-transform: uppercase;
+  }
+}
+
+
+#index_footer {
+  padding-top: 10px;
+  padding-bottom: 15px;
+}
+
+.status_tag {
+  &.✘ {
+    color: black;
+    background: none;
+  }
+  &.✔ {
+    color: black;
+    font-size: 20px;
+    background: none;
+    font-weight: bold;
+  }
+
+}
