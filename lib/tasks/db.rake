@@ -1,7 +1,7 @@
 namespace :db do
 	
 	task backup: :environment do 
-		system("pg_dump --no-owner --schema=public -a choir_development > choir.psql")
+		system("pg_dump --no-owner --schema=public -a choir_production > choir.psql")
 	end
 
 	task refresh: :environment do
