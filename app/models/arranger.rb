@@ -30,6 +30,6 @@ class Arranger < ActiveRecord::Base
 	end
 
 	def most_recent_performance
-		a.performances.any? ? a.performances.map(&:date).max : nil
+		performances.any? ? performances.map(&:date).max : nil
 	end
 end

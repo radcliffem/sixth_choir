@@ -26,7 +26,7 @@ class Appearance < ActiveRecord::Base
 	end
 
 	def date
-		performances.first.date
+		performances.any? ? performances.first.date : nil
 	end
 
 end

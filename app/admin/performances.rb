@@ -4,7 +4,7 @@ ActiveAdmin.register Performance do
 
 	menu parent: 'Tables'
 
-  filter :piece
+  filter :piece, as: :select, collection: proc { Piece.all.map{|p| [p.title+ ' | ' + p.composers.map(&:last_name).join(', ') , p.id ]} }, label: 'Piece', multiple: true
   filter :date
   filter :purpose, as: :select, collection: Performance.all.map(&:purpose).uniq, multiple: true
   filter :season, collection: proc { Season.all.collect { |s| [s.to_s, s.id] } }, label: 'Season', multiple: true
@@ -75,7 +75,7 @@ ActiveAdmin.register Performance do
 
     f.semantic_errors
     f.inputs 'Details' do
-      f.input :piece, as: :select, collection: Piece.all.order(:title)
+      f.input :piece, as: :select, collection: Piece.all.order(:title).map{|p| [p.title + ' | '+p.composers.map(&:last_name).join(', '), p.id]}
       f.input :date
       f.input :season, as: :select, collection: Season.all.map{|s| [s.liturgical_season, s.id]}
       f.input :purpose
