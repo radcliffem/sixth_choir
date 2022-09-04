@@ -1,5 +1,5 @@
 ActiveAdmin.register Appearance do
-	config.sort_order = 'id_asc'
+	config.sort_order = 'date_desc'
 	actions :index, :show, :new, :destroy, :edit
 
 	menu parent: 'Tables'
