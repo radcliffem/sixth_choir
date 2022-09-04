@@ -4,11 +4,11 @@ ActiveAdmin.register Performance do
 
 	menu parent: 'Tables'
 
-  filter :piece, as: :select, collection: proc { Piece.all.map{|p| [p.title+ ' | ' + p.composers.map(&:last_name).join(', ') , p.id ]} }, label: 'Piece', multiple: true
+  filter :piece, as: :select, collection: proc { Piece.all.map{|p| [p.title+ ' | ' + p.composer.last_name , p.id ]} }, label: 'Piece', multiple: true
   filter :date
-  filter :purpose, as: :select, collection: Performance.all.map(&:purpose).uniq, multiple: true
+  filter :purpose, as: :select, collection: proc { Performance.all.map(&:purpose).uniq }, multiple: true
   filter :season, collection: proc { Season.all.collect { |s| [s.to_s, s.id] } }, label: 'Season', multiple: true
-  filter :voice, as: :select, collection: Piece.valid_voices, multiple: true
+  filter :voice, as: :select, collection: proc { Piece.valid_voices }, multiple: true
 
 
 	index do
@@ -33,9 +33,7 @@ ActiveAdmin.register Performance do
 						link_to(p.piece.title, admin_piece_path(p.piece))
 					end
 					row :composers do
-            p.piece.composers.to_a.map { |c| [
-              link_to("#{c.name}", admin_composer_path(c.id)),
-              ' | '] }.flatten[0...-1]
+            link_to(p.piece.composer.name, admin_composer_path(p.piece.composer.id))
           end
           row :date
           row :acapella
@@ -75,7 +73,7 @@ ActiveAdmin.register Performance do
 
     f.semantic_errors
     f.inputs 'Details' do
-      f.input :piece, as: :select, collection: Piece.all.order(:title).map{|p| [p.title + ' | '+p.composers.map(&:last_name).join(', '), p.id]}
+      f.input :piece, as: :select, collection: Piece.all.order(:title).map{|p| [p.title + ' | '+p.composer.last_name, p.id]}
       f.input :date
       f.input :season, as: :select, collection: Season.all.map{|s| [s.liturgical_season, s.id]}
       f.input :purpose
@@ -86,7 +84,7 @@ ActiveAdmin.register Performance do
 
     f.inputs 'Appearances' do
       f.has_many :appearances, heading: false, allow_destroy: true, new_record: true do |a|
-        a.input :soloist, as: :select, collection: Soloist.all.order(:name)
+        a.input :soloist, as: :select, collection: Soloist.all.order(:name).map{|s| [s.name + ' | '+s.instrument, s.id]}
         a.input :payment
       end
     end
@@ -108,7 +106,7 @@ ActiveAdmin.register Performance do
       if @performance.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@performance.errors.full_messages)
-        redirect_to admin_performance_path()
+        redirect_to :back
       else
         redirect_to admin_performance_path(@performance.id)
       end

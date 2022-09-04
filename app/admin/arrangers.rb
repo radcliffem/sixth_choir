@@ -30,8 +30,7 @@ ActiveAdmin.register Arranger do
 							link_to p.title, admin_piece_path(p.id)
 						end
             column :composer do |p|
-              p.composers.to_a.map { |c| [
-                link_to("#{c.name}", admin_composer_path(c.id)),' | '] }.flatten[0...-1]
+              link_to(p.composer.name, admin_composer_path(p.composer.id))
             end
 						column :most_recent do |p|
               p.most_recent_performance
@@ -76,7 +75,7 @@ ActiveAdmin.register Arranger do
       if @arranger.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@arranger.errors.full_messages)
-        redirect_to admin_arranger_path()
+        redirect_to :back
       else
         redirect_to admin_arranger_path(@arranger.id)
       end

@@ -66,7 +66,7 @@ ActiveAdmin.register Soloist do
       if @soloist.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@soloist.errors.full_messages)
-        redirect_to admin_soloist_path()
+        redirect_to :back
       else
         redirect_to admin_soloist_path(@soloist.id)
       end

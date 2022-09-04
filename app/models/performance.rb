@@ -7,7 +7,7 @@ class Performance < ActiveRecord::Base
 	belongs_to :season
 
 	validate :compatible_appearances
-	validate :compatible_voicing
+	# validate :compatible_voicing
 
 	delegate :title, to: :piece
 

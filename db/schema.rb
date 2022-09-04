@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20220901173455) do
+ActiveRecord::Schema.define(version: 20220904174342) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,16 +106,18 @@ ActiveRecord::Schema.define(version: 20220901173455) do
   add_index "composers_pieces", ["piece_id", "composer_id"], name: "index_composers_pieces_on_piece_id_and_composer_id", using: :btree
 
   create_table "performances", force: true do |t|
+    t.date     "date"
     t.string   "purpose"
     t.integer  "piece_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "acapella"
-    t.string   "voice"
-    t.integer  "season_id"
     t.string   "service_type"
-    t.date     "date"
+    t.boolean  "acapella"
+    t.integer  "season_id"
+    t.string   "voice"
   end
+
+  add_index "performances", ["season_id"], name: "index_performances_on_season_id", using: :btree
 
   create_table "performances_pieces", id: false, force: true do |t|
     t.integer "performance_id", null: false
@@ -148,9 +150,11 @@ ActiveRecord::Schema.define(version: 20220901173455) do
     t.string   "special_parts",  default: [], array: true
     t.text     "notes"
     t.integer  "collection_id"
+    t.integer  "composer_id"
   end
 
   add_index "pieces", ["collection_id"], name: "index_pieces_on_collection_id", using: :btree
+  add_index "pieces", ["composer_id"], name: "index_pieces_on_composer_id", using: :btree
 
   create_table "pieces_seasons", id: false, force: true do |t|
     t.integer "season_id", null: false

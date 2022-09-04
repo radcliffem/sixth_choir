@@ -1,5 +1,5 @@
 class Composer < ActiveRecord::Base
-	has_and_belongs_to_many :pieces
+	has_many :pieces
 	accepts_nested_attributes_for :pieces, :allow_destroy => true
 
 	has_many :performances, through: :pieces

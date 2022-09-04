@@ -64,7 +64,7 @@ ActiveAdmin.register Appearance do
       if @appearance.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@appearance.errors.full_messages)
-        redirect_to admin_appearance_path()
+        redirect_to :back
       else
         redirect_to admin_appearance_path(@appearance.id)
       end

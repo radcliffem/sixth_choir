@@ -5,8 +5,9 @@ ActiveAdmin.register Piece do
 	menu parent: 'Tables'
   
   filter :title
-  filter :composers, collection: proc { Composer.all.order(:last_name).collect{|c| ["#{c.name}", c.id]} }, multiple: true
+  filter :composer, collection: proc { Composer.all.order(:last_name).collect{|c| ["#{c.name}", c.id]} }, multiple: true
   filter :performances, collection: proc { Performance.all.order(date: :desc).collect{|p| ["#{p.date}: #{p.purpose}", p.id]} }, multiple: true
+  filter :text, as: :select, multiple: true, collection: proc { Piece.all.order(text: :asc).map(&:text).uniq }
   filter :year
 
 	index do
@@ -14,9 +15,12 @@ ActiveAdmin.register Piece do
 			link_to p.title, admin_piece_path(p.id)
 		end
 		column 'Composer' do |p| 
-      p.composers.to_a.map { |c| [
-        link_to("#{c.name}", admin_composer_path(c.id)),' | '] }.flatten[0...-1]
-      end
+      link_to p.composer.name, admin_composer_path(p.composer.id)
+    end
+    column 'Arrangers' do |p|
+      p.arrangers.to_a.map { |c| [
+        link_to("#{c.name}", admin_arranger_path(c.id)), ' | '] }.flatten[0...-1]
+    end
     column :voicing do |p|
       p.voices
     end
@@ -33,9 +37,7 @@ ActiveAdmin.register Piece do
 					row :title
 					row :year
 					row :composers do
-            p.composers.to_a.map { |c| [
-              link_to("#{c.name}", admin_composer_path(c.id)),
-              ' | '] }.flatten[0...-1]
+            link_to p.composer.name, admin_composer_path(p.composer.id)
           end
           row :arrangers do
             p.arrangers.to_a.map { |c| [
@@ -56,6 +58,7 @@ ActiveAdmin.register Piece do
             end
             row :page_number
           end
+          row :text
           row :publisher
           row :catalog_number
           if p.notes.present?
@@ -78,12 +81,13 @@ ActiveAdmin.register Piece do
     f.inputs 'Details' do
       f.input :title
       f.input :year
-      f.input :composers, as: :select, multiple: true, collection: Composer.all.map {|x| [x.name, x.id]}
+      f.input :composer, as: :select, collection: Composer.all.map {|x| [x.name, x.id]}
       f.input :arrangers, as: :select, multiple: true, collection: Arranger.all.map {|x| [x.name, x.id]}
       f.input :genre
       f.input :voices, as: :select, multiple: true, collection: Piece.valid_voices
       f.input :acapella
       f.input :special_parts, as: :select, multiple: true, collection: Piece.all.map(&:special_parts).flatten.uniq
+      f.input :text
       f.input :collection, as: :select, collection: Collection.all.map {|x| [x.name, x.id]}
       f.input :page_number
       f.input :publisher
@@ -116,7 +120,7 @@ ActiveAdmin.register Piece do
       if @piece.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@piece.errors.full_messages)
-        redirect_to admin_piece_path()
+        redirect_to :back
       else
         redirect_to admin_piece_path(@piece.id)
       end

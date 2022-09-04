@@ -72,7 +72,7 @@ ActiveAdmin.register Collection do
       if @collection.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@collection.errors.full_messages)
-        redirect_to admin_collection_path()
+        redirect_to :back
       else
         redirect_to admin_collection_path(@collection.id)
       end

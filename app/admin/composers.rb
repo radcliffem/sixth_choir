@@ -90,7 +90,7 @@ ActiveAdmin.register Composer do
       if @composer.errors.any?
         flash[:error] ||= []
         flash[:error].concat(@composer.errors.full_messages)
-        redirect_to admin_composer_path()
+        redirect_to :back
       else
         redirect_to admin_composer_path(@composer.id)
       end
