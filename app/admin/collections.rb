@@ -59,6 +59,10 @@ ActiveAdmin.register Collection do
   end
 
   controller do
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
+
     def scoped_collection
       Collection.all
     end

@@ -57,6 +57,10 @@ ActiveAdmin.register Soloist do
     def scoped_collection
       Soloist.all
     end
+    
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
 
     def create
       soloist = params[:soloist]

@@ -111,6 +111,9 @@ ActiveAdmin.register Piece do
     def scoped_collection
       Piece.all
     end
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
 
     def create
       piece = params[:piece]

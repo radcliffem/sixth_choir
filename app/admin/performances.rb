@@ -96,6 +96,9 @@ ActiveAdmin.register Performance do
     def scoped_collection
       Performance.all.order(date: :desc)
     end
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
 
     def create
       performance = params[:performance]

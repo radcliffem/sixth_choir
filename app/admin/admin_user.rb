@@ -25,4 +25,12 @@ ActiveAdmin.register AdminUser do
     f.actions
   end
 
+
+  actions :all
+  controller do
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
+  end
+
 end

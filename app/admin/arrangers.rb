@@ -65,6 +65,9 @@ ActiveAdmin.register Arranger do
     def scoped_collection
       Arranger.all
     end
+    def action_methods
+      current_admin_user.admin ? super : super - ['edit', 'destroy', 'new']
+    end
 
     def create
       arranger = params[:arranger]
